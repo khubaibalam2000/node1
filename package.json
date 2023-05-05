@@ -4,7 +4,8 @@
   "description": "this is demo application",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"No test specified\""
+    "test": "echo \"No test specified\"",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
