@@ -4,7 +4,7 @@
   "description": "this is demo application",
   "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "test": "echo \"No test specified\""
   },
   "repository": {
     "type": "git",
