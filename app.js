@@ -1,31 +1,34 @@
-// const express = require('express');
-// const app = express();
-// var port = process.env.PORT || 3000;
-// app.get('/get', (req, res) => res.send('Hello World'));
-// app.listen (port, () => console.log('Server is running on port'+ port));
+const { MongoClient } = require("mongodb");
+const express = require('express');
 
-var express = require('express'),
-app = express(),
-port = process.env.PORT || 3000;
-mongoose = require('mongoose'),
-Task = require('./api/models/model'), //created model loading here
-bodyParser = require('body-parser');
-  
-// mongoose instance connection url connection
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb+srv://kukudb:kukudb@my-cluster.gdjpc4s.mongodb.net/?retryWrites=true&w=majority'); 
+const uri =
+"mongodb+srv://kukudb:kukudb@my-cluster.gdjpc4s.mongodb.net/?retryWrites=true&w=majority";
 
+const client = new MongoClient(uri);
+// await client.connect();
+const dbName = "My-Cluster";
+const collectionName = "assets";
+const database = client.db(dbName);
+const collection = database.collection(collectionName);
+var port = process.env.PORT || 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+const app = express();
+app.listen (port, () => console.log('Server is running on port: '+ port));
 
 
-// var routes = require('./api/routes/routes'); //importing route
-// routes(app); //register the route
 
+app.use(express.json());
 
-app.get('/get', (req, res) => res.send('Hello World'));
+app.get('/getAsset', async (req, res)  => {
+    result = await collection.find().toArray();
+    res.send(result);
+});
 
-app.listen(port);
+app.post('/postAsset', async (req, res)  => {
+    console.log(req.body);
+    data = req.body;
+    data['createdat'] = new Date();
+    result = await collection.insertOne(data);
+    res.send(result);
+});
 
-console.log('todo list RESTful API server started on: ' + port);
