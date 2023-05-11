@@ -25,9 +25,12 @@ app.get('/getAsset', async (req, res)  => {
 });
 
 app.post('/postAsset', async (req, res)  => {
-    console.log(req.body);
+    // console.log(req.body);
     data = req.body;
     data['createdat'] = new Date();
     result = await collection.insertOne(data);
     res.send(result);
 });
+
+
+
