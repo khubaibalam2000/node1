@@ -1,5 +1,6 @@
 const { MongoClient } = require("mongodb");
 const express = require('express');
+const cors = require('cors')
 
 const uri =
 "mongodb+srv://kukudb:kukudb@my-cluster.gdjpc4s.mongodb.net/?retryWrites=true&w=majority";
@@ -10,9 +11,10 @@ const dbName = "My-Cluster";
 const collectionName = "assets";
 const database = client.db(dbName);
 const collection = database.collection(collectionName);
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 
 const app = express();
+app.use(cors());
 app.listen (port, () => console.log('Server is running on port: '+ port));
 
 
@@ -31,6 +33,3 @@ app.post('/postAsset', async (req, res)  => {
     result = await collection.insertOne(data);
     res.send(result);
 });
-
-
-
